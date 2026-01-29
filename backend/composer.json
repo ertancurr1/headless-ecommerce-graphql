@@ -1,0 +1,24 @@
+{
+  "name": "ertan/headless-ecommerce-backend",
+  "description": "GraphQL API backend for headless e-commerce platform",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ertan Curri",
+      "email": "ertancurri2022@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  }
+}
