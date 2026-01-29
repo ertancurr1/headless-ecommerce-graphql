@@ -1,0 +1,42 @@
+# ====================
+# Dependencies
+# ====================
+/frontend/node_modules/
+/backend/vendor/
+
+# ====================
+# Environment & Secrets
+# ====================
+.env
+.env.local
+.env.*.local
+/backend/config/local.php
+
+# ====================
+# Build & Generated
+# ====================
+/frontend/build/
+/frontend/dist/
+/backend/generated/
+
+# ====================
+# IDE & Editor
+# ====================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ====================
+# OS Files
+# ====================
+.DS_Store
+Thumbs.db
+
+# ====================
+# Logs & Cache
+# ====================
+*.log
+/backend/cache/
+/backend/logs/
