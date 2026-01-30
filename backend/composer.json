@@ -10,7 +10,8 @@
     }
   ],
   "require": {
-    "php": ">=8.1"
+    "php": ">=8.1",
+    "webonyx/graphql-php": "^15.30"
   },
   "autoload": {
     "psr-4": {

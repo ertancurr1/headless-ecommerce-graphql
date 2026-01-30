@@ -9,25 +9,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/config/bootstrap.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
-use App\Infrastructure\Repositories\ProductRepository;
-use App\Infrastructure\Repositories\CategoryRepository;
-use App\Infrastructure\Repositories\AttributeSetRepository;
-
-// Load configurations
 $appConfig = require __DIR__ . '/config/app.php';
-
-// Test repositories
-$productRepo = new ProductRepository();
-$categoryRepo = new CategoryRepository();
-$attributeSetRepo = new AttributeSetRepository();
-
-// Fetch data
-$products = $productRepo->findActive(5);
-$categories = $categoryRepo->getCategoryTree();
-$attributeSets = $attributeSetRepo->findAllWithAttributes();
-
-// Get a single product with relations
-$productWithDetails = $productRepo->findByIdWithRelations(5);
 
 ?>
 <!DOCTYPE html>
@@ -37,87 +19,144 @@ $productWithDetails = $productRepo->findByIdWithRelations(5);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($appConfig['name']) ?></title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1000px; margin: 50px auto; padding: 20px; }
-        h1 { color: #2d3748; }
-        h2 { color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-        .card { background: #f7fafc; border-radius: 8px; padding: 15px; margin: 10px 0; }
-        .success { background: #c6f6d5; color: #276749; padding: 10px; border-radius: 8px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            max-width: 800px; 
+            margin: 50px auto; 
+            padding: 20px;
+            background: #f7fafc;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 { color: #2d3748; margin-bottom: 10px; }
+        .subtitle { color: #718096; margin-bottom: 30px; }
+        .endpoint {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 15px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: #4299e1;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        .btn:hover { background: #3182ce; }
+        .btn-secondary { background: #48bb78; }
+        .btn-secondary:hover { background: #38a169; }
+        h2 { color: #4a5568; margin-top: 30px; }
         code { background: #edf2f7; padding: 2px 6px; border-radius: 4px; }
-        .price { font-size: 1.2em; color: #2b6cb0; font-weight: bold; }
-        .discount { color: #c53030; text-decoration: line-through; margin-right: 10px; }
-        .attr { display: inline-block; background: #e2e8f0; padding: 3px 8px; border-radius: 4px; margin: 2px; font-size: 0.9em; }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
-    <h1>🚀 <?= htmlspecialchars($appConfig['name']) ?></h1>
-    
-    <div class="success">
-        ✅ Repositories working! Loaded <?= count($products) ?> products, <?= count($categories) ?> root categories, <?= count($attributeSets) ?> attribute sets.
-    </div>
-
-    <h2>📦 Products (First 5)</h2>
-    <div class="grid">
-        <?php foreach ($products as $product): ?>
-        <div class="card">
-            <strong><?= htmlspecialchars($product->getName()) ?></strong><br>
-            <code><?= htmlspecialchars($product->getSku()) ?></code><br>
-            <span class="price">
-                <?php if ($product->hasDiscount()): ?>
-                    <span class="discount">$<?= number_format($product->getPrice(), 2) ?></span>
-                <?php endif; ?>
-                $<?= number_format($product->getEffectivePrice(), 2) ?>
-                <?php if ($product->hasDiscount()): ?>
-                    <small>(<?= $product->getDiscountPercentage() ?>% off)</small>
-                <?php endif; ?>
-            </span><br>
-            <small>Type: <?= $product->getProductType() ?> | Stock: <?= $product->getStockQuantity() ?></small>
+    <div class="card">
+        <h1>🚀 <?= htmlspecialchars($appConfig['name']) ?></h1>
+        <p class="subtitle">GraphQL API is ready!</p>
+        
+        <h2>📡 GraphQL Endpoint</h2>
+        <div class="endpoint">
+            POST http://localhost/headless-ecommerce-graphql/backend/graphql.php
         </div>
-        <?php endforeach; ?>
-    </div>
 
-    <?php if ($productWithDetails): ?>
-    <h2>🔍 Product Details: <?= htmlspecialchars($productWithDetails->getName()) ?></h2>
-    <div class="card">
-        <p><strong>SKU:</strong> <?= htmlspecialchars($productWithDetails->getSku()) ?></p>
-        <p><strong>Price:</strong> $<?= number_format($productWithDetails->getEffectivePrice(), 2) ?></p>
-        <p><strong>Attributes:</strong></p>
-        <?php foreach ($productWithDetails->getAttributeValues() as $attr): ?>
-            <span class="attr"><?= htmlspecialchars($attr->getAttributeName()) ?>: <?= htmlspecialchars($attr->getValue()) ?></span>
-        <?php endforeach; ?>
-        <p><strong>Images:</strong> <?= count($productWithDetails->getImages()) ?></p>
-    </div>
-    <?php endif; ?>
+        <a href="https://studio.apollographql.com/sandbox/explorer" target="_blank" class="btn">
+            Open Apollo Studio
+        </a>
+        <a href="https://altairgraphql.dev/" target="_blank" class="btn btn-secondary">
+            Download Altair Client
+        </a>
 
-    <h2>📂 Category Tree</h2>
-    <?php foreach ($categories as $rootCategory): ?>
-    <div class="card">
-        <strong><?= htmlspecialchars($rootCategory->getName()) ?></strong>
-        <?php if ($rootCategory->hasChildren()): ?>
-        <ul>
-            <?php foreach ($rootCategory->getChildren() as $child): ?>
-            <li><?= htmlspecialchars($child->getName()) ?> <code><?= $child->getSlug() ?></code></li>
-            <?php endforeach; ?>
-        </ul>
-        <?php endif; ?>
-    </div>
-    <?php endforeach; ?>
+        <h2>📝 Example Queries</h2>
+        
+        <h3>Get All Products</h3>
+        <pre>{
+  products(limit: 5) {
+    id
+    name
+    sku
+    price
+    effectivePrice
+    hasDiscount
+    inStock
+  }
+}</pre>
 
-    <h2>🏷️ Attribute Sets</h2>
-    <?php foreach ($attributeSets as $set): ?>
-    <div class="card">
-        <strong><?= htmlspecialchars($set->getName()) ?></strong><br>
-        <?php foreach ($set->getAttributes() as $attr): ?>
-            <span class="attr">
-                <?= htmlspecialchars($attr->getName()) ?> 
-                (<?= $attr->getType() ?>)
-                <?php if ($attr->isSelectType() && count($attr->getOptions()) > 0): ?>
-                    : <?= implode(', ', array_map(fn($o) => $o->getValue(), $attr->getOptions())) ?>
-                <?php endif; ?>
-            </span>
-        <?php endforeach; ?>
-    </div>
-    <?php endforeach; ?>
+        <h3>Get Single Product with Details</h3>
+        <pre>{
+  product(id: 5) {
+    id
+    name
+    sku
+    price
+    description
+    attributes {
+      attributeName
+      value
+    }
+    images {
+      url
+      isPrimary
+    }
+    categories {
+      name
+      slug
+    }
+  }
+}</pre>
 
+        <h3>Filter Products by Price</h3>
+        <pre>{
+  products(filter: { minPrice: 50, maxPrice: 200 }) {
+    name
+    price
+  }
+}</pre>
+
+        <h3>Get Category Tree</h3>
+        <pre>{
+  categoryTree {
+    id
+    name
+    slug
+    children {
+      id
+      name
+      slug
+    }
+  }
+}</pre>
+
+        <h3>Get Attribute Sets</h3>
+        <pre>{
+  attributeSets {
+    id
+    name
+    attributes {
+      name
+      code
+      type
+      options
+    }
+  }
+}</pre>
+
+    </div>
 </body>
 </html>
