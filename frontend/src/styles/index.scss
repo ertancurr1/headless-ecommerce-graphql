@@ -1,0 +1,48 @@
+// ==========================================
+// MAIN STYLESHEET
+// ==========================================
+
+// Base
+@use "base/variables" as *;
+@use "base/reset";
+@use "base/utilities";
+
+// ==========================================
+// APP STYLES
+// ==========================================
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    background: $color-surface;
+    padding: $spacing-lg;
+    text-align: center;
+    border-bottom: 1px solid $color-border;
+    box-shadow: $shadow-sm;
+
+    h1 {
+      color: $color-primary;
+      font-size: $font-size-2xl;
+      margin-bottom: $spacing-xs;
+    }
+
+    p {
+      color: $color-text-light;
+      font-size: $font-size-sm;
+    }
+  }
+
+  &__main {
+    flex: 1;
+    padding: $spacing-xl;
+
+    p {
+      text-align: center;
+      color: $color-text-light;
+      font-size: $font-size-lg;
+    }
+  }
+}

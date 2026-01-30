@@ -1,0 +1,77 @@
+// ==========================================
+// UTILITY CLASSES
+// ==========================================
+@use "variables" as *;
+
+// Container
+.container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+}
+
+// Flexbox
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Grid
+.grid {
+  display: grid;
+  gap: $spacing-md;
+}
+
+// Text
+.text-center {
+  text-align: center;
+}
+
+.text-light {
+  color: $color-text-light;
+}
+
+// Spacing
+.mt-sm {
+  margin-top: $spacing-sm;
+}
+.mt-md {
+  margin-top: $spacing-md;
+}
+.mt-lg {
+  margin-top: $spacing-lg;
+}
+.mb-sm {
+  margin-bottom: $spacing-sm;
+}
+.mb-md {
+  margin-bottom: $spacing-md;
+}
+.mb-lg {
+  margin-bottom: $spacing-lg;
+}
+
+// Visibility
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
